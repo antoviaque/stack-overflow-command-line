@@ -1,7 +1,4 @@
-#!/usr/bin/env ruby
+#!/bin/bash
 
-$LOAD_PATH << './lib'
-require 'command.rb'
-
-StackOverflow::Command.start
+ruby ./so.rb search "$*"
 
