@@ -60,6 +60,19 @@ module StackOverflow
             @db_idx = SQLite3::Database.new(File.join(Dir.home, ".stackoverflow/stackoverflow_idx.db"))
         end
 
+        def db_error_catching
+            begin
+                yield
+            rescue SQLite3::SQLException => e
+                puts "******************"
+                puts "** DATABASE ERROR. Did you run 'so --update'? (If you did, remove the ~/.stackoverflow directory and run 'so --update' again)"
+                puts "******************\n\n"
+                puts 'Details of the error:'
+                puts e.message
+                puts e.backtrace
+            end
+        end
+
         def search(search_string)
             # Search on titles in the small index DB, to get the ids faster
             sql = "SELECT id FROM questions WHERE "
@@ -70,9 +83,12 @@ module StackOverflow
             sql += sub_sql.join(' AND ')
 
             questions_ids = []
-            @db_idx.execute(sql) do |row|
-                questions_ids << row[0]
+            db_error_catching do
+                @db_idx.execute(sql) do |row|
+                    questions_ids << row[0]
+                end
             end
+            return [] if questions_ids.length < 1
 
             # Then retreive details from the main (large) DB
             sql = "SELECT id, score, body, title FROM posts WHERE "
@@ -84,23 +100,29 @@ module StackOverflow
             sql += ' ORDER BY score DESC'
 
             questions = []
-            @db.execute(sql) do |row|
-                questions << { :id => row[0],
-                               :score => row[1],
-                               :body => row[2],
-                               :title => row[3],
-                               :link => '',
-                               :answers => get_answers(row[0]) }
+            db_error_catching do
+                @db.execute(sql) do |row|
+                    questions << { :id => row[0],
+                                   :score => row[1],
+                                   :body => row[2],
+                                   :title => row[3],
+                                   :link => '',
+                                   :answers => get_answers(row[0]) }
+                end
             end
+            questions
         end
 
         def get_answers(question_id)
             # Search on parent ids in the small index DB, to get the ids faster
             sql = "SELECT id FROM answers WHERE parent_id=#{question_id}"
             answers_ids = []
-            @db_idx.execute(sql) do |row|
-                answers_ids << row[0]
+            db_error_catching do
+                @db_idx.execute(sql) do |row|
+                    answers_ids << row[0]
+                end
             end
+            return [] if answers_ids.length < 1
 
             # Then retreive details from the main (large) DB
             sql = "SELECT id, score, body FROM posts WHERE "
@@ -112,11 +134,14 @@ module StackOverflow
             sql += ' ORDER BY score DESC'
 
             answers = []
-            @db.execute(sql) do |row|
-                answers << { :id => row[0],
-                             :score => row[1],
-                             :body => row[2] }
+            db_error_catching do
+                @db.execute(sql) do |row|
+                    answers << { :id => row[0],
+                                 :score => row[1],
+                                 :body => row[2] }
+                end
             end
+            answers
         end
     end
 
@@ -224,7 +249,11 @@ module StackOverflow
 
             table = Terminal::Table.new do |t|
                 questions.each do |question|
-                    score = question['score'] > 0 ? "+#{question['score']}" : question['score']
+                    if question['score']
+                        score = question['score'] > 0 ? "+#{question['score']}" : question['score'] 
+                    else
+                        score = 0
+                    end
                     t << ["[#{nb}]", "(#{score})", question['title']]
                     nb += 1
                 end

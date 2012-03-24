@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'stackoverflow'
-  s.version     = '0.1.1'
+  s.version     = '0.1.3'
   s.date        = '2012-03-24'
   s.summary     = "Query StackOverflow from the command line (offline/online modes)"
   s.description = "Allows to query Stack Overflow's questions & answers from the command line. It can either be used in 'online' mode, where the StackOverflow API is queried, or offline, by downloading the latest dump released by StackOverflow."
