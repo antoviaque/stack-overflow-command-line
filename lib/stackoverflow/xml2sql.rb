@@ -64,7 +64,7 @@ while reader.read
         end
         #ins.execute(post['Id'], 
         #            post['PostTypeId'], 
-        #            post['ParentID'],
+        #            post['ParentId'],
         #            post['AcceptedAnswerId'], 
         #            post['Score'], 
         #            post['Body'], 
@@ -75,7 +75,7 @@ while reader.read
                                  post['Title'])
         else if post['PostTypeId'] == '2'
             ins_answer.execute(post['Id'], 
-                               post['ParentID'])
+                               post['ParentId'])
         end end
     end
 end

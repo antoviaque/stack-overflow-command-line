@@ -125,8 +125,8 @@ module StackOverflow
             @dir_path = File.join(Dir.home, ".stackoverflow")
             @db_version_path = File.join(@dir_path, "db_version")
 
-            @remote_hostname = "foobbs.org"
-            @remote_path = "/tmp/so/"
+            @remote_hostname = "dl.dropbox.com"
+            @remote_path = "/u/31130894/"
         end
 
         def check_local_dir
