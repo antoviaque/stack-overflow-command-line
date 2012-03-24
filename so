@@ -1,4 +1,4 @@
 #!/bin/bash
 
-ruby ./so.rb search "$*"
+ruby -Ilib ./bin/so $*
 

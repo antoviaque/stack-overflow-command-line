@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'stackoverflow'
+
+StackOverflow::Command.new.run
+

@@ -2,3 +2,5 @@
 *.swp
 .pydevproject
 .project
+data/
+*.gem
