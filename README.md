@@ -56,6 +56,11 @@ Offline mode:
 License
 =======
 
-* Data (c) Stack Overflow, CC-BY-SA 3.0 - http://stackoverflow.com/ http://creativecommons.org/licenses/by-sa/3.0/
-* Code (c) Xavier Antoviaque, AGPLv3 - http://www.gnu.org/licenses/agpl-3.0.html
+* Data (c) [Stack Overflow][], [CC-BY-SA 3.0][]
+* Code (c) [Xavier Antoviaque][], [AGPLv3][]
+
+[Stack Overflow]:       http://stackoverflow.com/
+[Xavier Antoviaque]:    http://antoviaque.org/
+[CC-BY-SA 3.0]:         http://creativecommons.org/licenses/by-sa/3.0/
+[AGPLv3]:               http://www.gnu.org/licenses/agpl-3.0.html
 
