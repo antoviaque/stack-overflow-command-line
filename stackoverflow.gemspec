@@ -1,12 +1,19 @@
 Gem::Specification.new do |s|
   s.name        = 'stackoverflow'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = '2012-03-24'
   s.summary     = "Query StackOverflow from the command line (offline/online modes)"
   s.description = "Query StackOverflow from the command line (offline/online modes)"
   s.authors     = ["Xavier Antoviaque"]
   s.email       = 'xavier@antoviaque.org'
   s.files       = ["lib/stackoverflow.rb"]
-  s.executables << 'so'
   s.homepage    = 'https://github.com/antoviaque/stack-overflow-command-line'
+  
+  s.executables << 'so'
+  
+  s.add_dependency('json', '>= 1.6.5')
+  s.add_dependency('libxml-ruby', '>= 2.3.2')
+  s.add_dependency('nokogiri', '>= 1.5.2')
+  s.add_dependency('sqlite3', '>= 1.3.5')
+  s.add_dependency('terminal-table', '>= 1.4.5')
 end
