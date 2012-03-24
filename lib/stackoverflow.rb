@@ -27,7 +27,6 @@ require 'terminal-table/import'
 require 'sqlite3'
 require 'optparse'
 
-
 module StackOverflow
     class API
         def search(search_string)

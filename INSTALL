@@ -1,3 +1,0 @@
-ruby 1.9
-sudo gem install json nokogiri terminal-table sqlite3
-./bin/so --help
