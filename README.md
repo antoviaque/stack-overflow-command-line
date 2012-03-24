@@ -1,14 +1,14 @@
 Stack Overflow - Command Line Tool
 ==================================
 
-Allows to query Stack Overflow's questions & answers from the command line. It can either be used in "online" mode, where the Stack OVerflow API is queried, or offline, by downloading the latest dump released by Stack Overflow.
+Allows to query Stack Overflow's questions & answers from the command line. It can either be used in "online" mode, where the StackOverflow API is queried, or offline, by downloading the latest dump released by StackOverflow.
 
 Install
 =======
 
     $ sudo gem install stackoverflow
 
-To download the data for offline mode (be patient, several GB to get!):
+If you plan on using the offline mode, download the data (be patient, several GB to get!):
 
     $ so --update
 
