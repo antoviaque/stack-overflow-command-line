@@ -251,7 +251,7 @@ module StackOverflow
         end
 
         def gunzip_file(file_name)
-            gz_file_path = File.join(@dir_path, filename)
+            gz_file_path = File.join(@dir_path, file_name)
             z = Zlib::Inflate.new(16+Zlib::MAX_WBITS)
 
             File.open(gz_file_path) do |f|
@@ -289,7 +289,7 @@ module StackOverflow
                     else
                         score = 0
                     end
-                    t << ["[#{nb}]", "(#{score})", question['title']]
+                    t << ["[#{nb}]", "(#{score})", question['title'][0..60]]
                     nb += 1
                 end
                 t.style = {:padding_left => 2, :border_x => " ", :border_i => " ", :border_y => " "}
