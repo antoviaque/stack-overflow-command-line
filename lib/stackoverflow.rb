@@ -97,17 +97,17 @@ module StackOverflow
                 sub_sql << "id=#{question_id}"
             end
             sql += sub_sql.join(' OR ')
-            sql += ' ORDER BY score DESC'
+            sql += ' ORDER BY score DESC LIMIT 0,25'
 
             questions = []
             db_error_catching do
                 @db.execute(sql) do |row|
-                    questions << { :id => row[0],
-                                   :score => row[1],
-                                   :body => row[2],
-                                   :title => row[3],
-                                   :link => '',
-                                   :answers => get_answers(row[0]) }
+                    questions << { 'id' => row[0],
+                                   'score' => row[1],
+                                   'body' => row[2],
+                                   'title' => row[3],
+                                   'link' => '',
+                                   'answers' => get_answers(row[0]) }
                 end
             end
             questions
@@ -136,9 +136,9 @@ module StackOverflow
             answers = []
             db_error_catching do
                 @db.execute(sql) do |row|
-                    answers << { :id => row[0],
-                                 :score => row[1],
-                                 :body => row[2] }
+                    answers << { 'id' => row[0],
+                                 'score' => row[1],
+                                 'body' => row[2] }
                 end
             end
             answers
@@ -178,32 +178,69 @@ module StackOverflow
             end
         end
 
+        def can_resume?(remote_db_version)
+            can_resume = false
+            last_download_db_version_flagpath = File.join(@dir_path, ".last_download_db_version")
+            if file_exists?(last_download_db_version_flagpath)
+                File.open(last_download_db_version_flagpath, 'r') do |f| 
+                    can_resume = true if remote_db_version == f.read().to_i
+                end
+            end
+            File.open(last_download_db_version_flagpath, 'w+') { |f| f.write(remote_db_version.to_s) }
+            puts "Can resume? #{can_resume}"
+            can_resume
+        end
+
         def update
             check_local_dir
             remote_db_version = get_remote_db_version
             db_version = get_db_version
+            can_resume = can_resume?(remote_db_version)
             if db_version < remote_db_version
                 puts "Database update found!"
                 puts "Updating from version #{db_version} to version #{remote_db_version} (several GB to download - this can take a while)..."
-                download_all
+                download_all(can_resume)
                 set_db_version(remote_db_version)
             end
             puts "The database is up to date (version #{get_db_version})."
         end
 
-        def download_all
-            download_file "stackoverflow_idx.db.gz"
-            gunzip_file   "stackoverflow_idx.db.gz"
-            download_file "stackoverflow.db.gz"
-            gunzip_file   "stackoverflow.db.gz"
+        def wget_available?
+            available = false
+            ENV['PATH'].split(':').each {|folder| available = true if File.exists?(folder+'/wget')}
+            available
         end
 
-        def download_file(filename)
-            puts "Downloading #{filename}..."
+        def download_all(can_resume)
+            files_names = ["stackoverflow_idx.db.gz", "stackoverflow.db.gz"]
+
+            for file_name in files_names
+                file_path = File.join(@dir_path, file_name)
+                File.delete(file_path) if file_exists?(file_path) and not can_resume
+
+                puts "Downloading #{file_path}..."
+                if wget_available?
+                    wget file_name
+                else
+                    puts "Warning: 'wget' utility unavailable. Install it to be able to resume failed downloads."
+                    internal_download file_name
+                end
+            
+                puts "Unpacking #{file_path}..."
+                gunzip_file file_name
+            end
+        end
+
+        def wget(file_name)
+            download_url = "http://#{@remote_hostname}" + File.join(@remote_path, file_name)
+            `wget -P #{@dir_path} -c #{download_url}`
+        end
+
+        def internal_download(file_name)
             Net::HTTP.start(@remote_hostname) do |http|
-                f = open(File.join(@dir_path, filename), "wb")
+                f = open(File.join(@dir_path, file_name), "wb")
                 begin
-                    http.request_get(File.join(@remote_path, filename)) do |resp|
+                    http.request_get(File.join(@remote_path, file_name)) do |resp|
                         resp.read_body do |segment|
                             f.write(segment)
                         end
@@ -214,8 +251,7 @@ module StackOverflow
             end
         end
 
-        def gunzip_file(filename)
-            puts "Unpacking #{filename}..."
+        def gunzip_file(file_name)
             gz_file_path = File.join(@dir_path, filename)
             z = Zlib::Inflate.new(16+Zlib::MAX_WBITS)
 
