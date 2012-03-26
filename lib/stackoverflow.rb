@@ -187,7 +187,6 @@ module StackOverflow
                 end
             end
             File.open(last_download_db_version_flagpath, 'w+') { |f| f.write(remote_db_version.to_s) }
-            puts "Can resume? #{can_resume}"
             can_resume
         end
 
