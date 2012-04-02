@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="Stack Overflow Command Line : Query Stack Overflow's questions &amp; answers from the command line - even when you're offline" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Stack Overflow Command Line</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/antoviaque/stack-overflow-command-line">Fork Me on GitHub</a>
+
+          <h1 id="project_title">Stack Overflow Command Line</h1>
+          <h2 id="project_tagline">Query Stack Overflow's questions &amp; answers from the command line - even when you're offline</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/antoviaque/stack-overflow-command-line/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/antoviaque/stack-overflow-command-line/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>Stack Overflow - Command Line Tool</h1>
+
+<p>Allows to query Stack Overflow's questions &amp; answers from the command line. It can either be used in "online" mode, where the StackOverflow API is queried, or offline, by downloading the latest dump released by StackOverflow.</p>
+
+<h1>Install</h1>
+
+<pre><code>$ sudo gem install stackoverflow
+</code></pre>
+
+<p>If you plan on using the offline mode, download the data (be patient, several GB to get!):</p>
+
+<pre><code>$ so --update
+</code></pre>
+
+<h1>Use</h1>
+
+<pre><code>$ so git revert
+
+   [1]     (+45)    GIT revert to previous commit... how?                                              
+   [2]     (+30)    Git, Revert to a commit by SHA hash?                                               
+   [3]     (+28)    How to revert a "git rm -r ."?                                           
+   [4]     (+26)    Revert multiple git commits                                                        
+   [5]     (+22)    Eclipse git checkout (aka, revert)                                                 
+   [6]     (+9)     git revert changes to a file in a commit                                           
+   [7]     (+8)     Revert a range of commits in git                                                   
+   [8]     (+8)     Git revert last commit in heroku                                                   
+   [9]     (+8)     Git revert local commit                                                            
+   [10]    (+6)     Revert a Git Submodule pointer                                                     
+   [11]    (+5)     Git revert merge to specific parent                                                
+   [12]    (+5)     Git force revert to HEAD~7                                                         
+   [13]    (+5)     Git merge, then revert, then revert the revert                                     
+   [14]    (+4)     hg equivalant of git revert                                                        
+   [15]    (+3)     git revert in Egit                                                                 
+   [16]    (+3)     Revert back to a specific commit in git, build, then revert to the latest changes  
+   [17]    (+3)     git revert back to certain commit                                                  
+   [18]    (+2)     git how to revert to specific revision                                             
+   [19]    (+2)     Git: Revert to previous commit status                                              
+   [20]    (+2)     Git Revert, Checkout and Reset for Dummies                                         
+   [21]    (+1)     Git cancel a revert                                                                
+   [22]    (+1)     git revert and git checkout                                                        
+   [23]    (0)      undo revert in git or tortoisegit                                                  
+   [24]    (0)      How to apply a git revert?                                                         
+   [25]    (0)      Git Revert Error Message?                                                          
+
+$ so git revert 2
+
+    [...Shows the question &amp; answers for #2: "Git, Revert to a commit by SHA hash?"...]
+</code></pre>
+
+<p>Offline mode:</p>
+
+<pre><code>$ so --update
+$ so --offline git revert
+$ so --offline git revert 2
+</code></pre>
+
+<h1>License</h1>
+
+<ul>
+<li>Data (c) <a href="http://stackoverflow.com/">Stack Overflow</a>, <a href="http://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA 3.0</a>
+</li>
+<li>Code (c) <a href="http://antoviaque.org/">Xavier Antoviaque</a>, <a href="http://www.gnu.org/licenses/agpl-3.0.html">AGPLv3</a>
+</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Stack Overflow Command Line maintained by <a href="https://github.com/antoviaque">antoviaque</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
